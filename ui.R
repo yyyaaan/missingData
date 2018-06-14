@@ -125,11 +125,11 @@ inSigma2 <- material_row(
 )
 
 inMix <- tagList(
-  sliderInput (
-    inputId = "lambda",
-    label = "Lambda - mix probability",
-    value = 0.6,
-    min = 0, max = 1, step = 0.05
+  material_slider(
+    input_id = "lambda",
+    label = "Lambda - mix probability (100x)",
+    initial_value = 60,
+    min_value = 1, max_value = 99
   ),
   material_slider(
     input_id = "sizeN",
@@ -140,7 +140,8 @@ inMix <- tagList(
 )
 
 inEMextra <- material_row(
-  hr(),
+  tags$br(),
+  tags$br(),
   material_column(width = 6, material_number_box(
     input_id = "maxiter",
     label = "Max Iterations",
@@ -234,7 +235,7 @@ boxSource0 <- material_card(
 )
 
 boxSource1 <- material_card(
-  title = "ui.R",
+  title = "ui.R" ,
   tags$pre(includeText("ui.R"))
 )
 
@@ -253,6 +254,7 @@ boxSource3 <- material_card(
 
 material_page(
   title = "My Missing Data Lab",
+  nav_bar_color = "cyan lighten-2",
   material_tabs(
     tabs = c("EM Algorithm" = "em", 
              "Univariate Lab" = "lab",
@@ -265,9 +267,9 @@ material_page(
   ),
   material_tab_content(
     tab_id = "lab",
-    tags$h1("Coming Soon"),
-    tags$p("I am currently working on a dynamic link to ESS (European Social Survey), and will be able to publish result here")
-#    boxConfig, boxValues, oxImpRes
+    tags$h1("Coming Soon")
+#    tags$p("I am currently working on a dynamic link to ESS (European Social Survey), and will be able to publish result here")
+#     boxConfig, boxValues, boxImpRes
   ),
   material_tab_content(
     tab_id = "source",

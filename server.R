@@ -11,7 +11,7 @@ library(dplyr)
 myColors<- setNames(c('#66c2a5','#fc8d62','#8da0cb','#e78ac3','#a6d854','#ffd92f'), 
                     c('Distribution 1', 'Distribution 2', 'Theoretic mu 1',
                       'Theoretic mu 2', 'Trace of mu 1', 'Trace of mu 2'))
-orgDF <- readRDS("FishingData.rds"); genDF <- NULL; mainDF <- NULL;
+orgDF <- readRDS("sampleData.rds"); genDF <- NULL; mainDF <- NULL;
 sim <- NULL; init <- NULL; p3d <- NULL
 
 
@@ -49,7 +49,7 @@ shinyServer(function(input, output, session) {
 
 # imputation --------------------------------------------------------------
   
-  observeEvent(input$runImp,{
+  observeEvent(input$runImputation,{
     impList <- imputointi(genDF, input$imputeMethod, input$imputeN)
 
     output$missPlot <- renderPlot(impList$impPlot)
@@ -85,12 +85,6 @@ shinyServer(function(input, output, session) {
   })
   
 
-  
-# View Data ---------------------------------------------------------------
-
-  output$viewData <- renderDataTable(orgDF)
-
-
 # EM: generate samples ----------------------------------------------------
   
   output$emInfo <- renderUI(p('Note: The initial value is generated automatically by including an error defined by InitValue Error'))
@@ -109,9 +103,10 @@ shinyServer(function(input, output, session) {
     
     if(is.positive.semi.definite(sigma1) & is.positive.semi.definite(sigma2)){
       
-      sim <<- genData(input$sizeN, mu1, mu2, sigma1, sigma2, input$lambda)
+      sim <<- genData(input$sizeN, mu1, mu2, sigma1, sigma2, input$lambda/100)
       
-      init <<- randomInit(mu1, mu2, sigma1, sigma2, lambda, input$initMag)
+      init <<- randomInit(mu1, mu2, sigma1, sigma2, input$lambda/100, input$initMag)
+      print(input$lambda)
       
       p3d <<- plot_ly(sim$df) %>% 
         add_markers(x = ~X1, y= ~X2, z= ~X3, color = ~isFirst, colors = myColors,
