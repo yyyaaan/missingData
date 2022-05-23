@@ -64,8 +64,8 @@ runImputation <- material_button(
 )
 
 inShowGroup <- material_switch(
-  input_id = "showGroup", 
-  label = " group by age",
+  input_id = "showGroup",
+  #label = " group by age",
   initial_value = TRUE
 )
 
